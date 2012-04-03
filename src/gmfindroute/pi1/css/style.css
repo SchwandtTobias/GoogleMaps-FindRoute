@@ -1,0 +1,48 @@
+@CHARSET "UTF-8";
+
+div.map_canvas {
+}
+
+
+div.form_content {
+	width: 450px;
+	padding:14px;
+}
+div.form_content label{
+	display:block;
+	font-weight:bold;
+	text-align:right;
+	width:180px;
+	float:left;
+}
+div.form_content input, select{
+	float:left;
+	font-size:12px;
+	padding:4px 2px;
+	border:solid 1px #333;
+	width:200px;
+	margin:2px 0 10px 10px;
+}
+div.form_content select{
+	width:206px;
+}
+div.form_content input.btn{
+	clear:both;
+	margin-left:190px;
+	width:125px;
+	height:31px;
+	background:#333;
+	text-align:center;
+	line-height:31px;
+	color:#FFFFFF;
+	font-size:11px;
+	font-weight:bold;
+}
+
+
+div.more_information {
+	clear:both;
+	border-left: 2px solid #333;
+	padding-left: 14px;
+}
+

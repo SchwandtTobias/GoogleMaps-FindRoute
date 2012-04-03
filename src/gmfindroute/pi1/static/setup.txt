@@ -1,0 +1,30 @@
+plugin.tx_gmfindroute_pi1 { 
+pathDefImgMarker = typo3conf/ext/gmfindroute/pi1/img/logo_50_marker.png
+includeCSS = typo3conf/ext/gmfindroute/pi1/css/style.css
+
+map {
+width = 500
+height = 500
+zoom = 6
+}
+
+language {
+label_start = Dein Standort:
+placeholder_start = Dein Standort: Berlin, Deutschland?
+label_target = Zielort:
+label_mode = Fortbewegungsmittel:
+label_mode1 = Auto
+label_mode2 = Laufen
+label_mode3 = Fahrrad
+label_length = Strecke:
+label_google = Wegbeschreibung:
+label_db = Deutsche Bahn:
+link_google = Details zur Route in Google Maps anzeigen.
+link_db = Strecke mit der Deutschen Bahn zurücklegen.
+value_button = Route berechnen
+
+txt_unknown = Unbekannt
+txt_alertNoStartingPoint = Bitte trage deinen Standort ein.
+}
+
+}

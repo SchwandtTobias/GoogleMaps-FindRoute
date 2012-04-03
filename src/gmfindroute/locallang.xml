@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for extension 'gmfindroute'</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="pi1_title">Google Maps Find&amp;Route</label>
+			<label index="pi1_plus_wiz_description">Insert a map with different locations.</label>
+			<label index="pi1_map_options">Options</label>
+			<label index="pi1_map_width">Map width</label>
+			<label index="pi1_map_height">Map height</label>
+			<label index="pi1_map_zoom">Set zoom on start</label>
+			<label index="pi1_google_link">Disable google link</label>
+			<label index="pi1_db_link">Disable DB link</label>
+			<label index="pi1_navigationControl">Disable navigation control</label>
+		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="pi1_title">Google Maps Find&amp;Route</label>
+			<label index="pi1_plus_wiz_description">Einfügen einer Route zu einer voreingestellten Position.</label>
+			<label index="pi1_map_options">Optionen</label>
+			<label index="pi1_map_width">Weite der Karte</label>
+			<label index="pi1_map_height">Höhe der Karte</label>
+			<label index="pi1_map_zoom">Zoom der Karte beim Start</label>
+			<label index="pi1_google_link">Link zu Google nicht anzeigen</label>
+			<label index="pi1_db_link">Link zur Deutschen Bahn nicht anzeigen</label>
+			<label index="pi1_navigationControl">Navigationskontrolle ausschalten</label>
+		</languageKey>
+	</data>
+</T3locallang>

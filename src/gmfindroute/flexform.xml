@@ -1,0 +1,65 @@
+<T3DataStructure>
+  <sheets>
+    <sDEF>
+      <ROOT>
+        <TCEforms>
+          <sheetTitle>LLL:EXT:gmfindroute/locallang.xml:pi1_map_options</sheetTitle>
+        </TCEforms>
+        <type>array</type>
+        <el>
+          <map_size_width>
+            <TCEforms>
+              <label>LLL:EXT:gmfindroute/locallang.xml:pi1_map_width</label>
+              <config>
+                <type>input</type>
+              </config>
+            </TCEforms>
+          </map_size_width> 
+		  <map_size_height>
+            <TCEforms>
+              <label>LLL:EXT:gmfindroute/locallang.xml:pi1_map_height</label>
+              <config>
+                <type>input</type>
+              </config>
+            </TCEforms>
+          </map_size_height>
+		    
+		  <map_zoom>
+            <TCEforms>
+              <label>LLL:EXT:gmfindroute/locallang.xml:pi1_map_zoom</label>
+              <config>
+                <type>input</type>
+              </config>
+            </TCEforms>
+          </map_zoom>
+		  
+		  <google_link>
+            <TCEforms>
+              <label>LLL:EXT:gmfindroute/locallang.xml:pi1_google_link</label>
+              <config>
+                <type>check</type>
+              </config>
+            </TCEforms>
+          </google_link>
+		  <db_link>
+            <TCEforms>
+              <label>LLL:EXT:gmfindroute/locallang.xml:pi1_db_link</label>
+              <config>
+                <type>check</type>
+              </config>
+            </TCEforms>
+          </db_link>
+		  
+		  <map_navigationControl>
+            <TCEforms>
+              <label>LLL:EXT:gmfindroute/locallang.xml:pi1_navigationControl</label>
+              <config>
+                <type>check</type>
+              </config>
+            </TCEforms>
+          </map_navigationControl>
+		 </el>
+      </ROOT>
+    </sDEF>
+  </sheets>
+</T3DataStructure>
