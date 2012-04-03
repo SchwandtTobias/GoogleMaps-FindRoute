@@ -1,48 +1,239 @@
 @CHARSET "UTF-8";
 
-div.map_canvas {
+div.ext_maps_google {
+	font-family: Droid Sans, sans-serif;
+	font-size: 14px;
+}
+
+form {
+	margin: 0;
+}
+
+div.ext_maps_google .map_canvas {
+	max-width: 500px;
+    min-height: 500px;
+	margin-bottom: 10px;
+}
+
+div.ext_maps_google #InformationBox {
+	background-color: #04316A;
+    display: block;
+    margin-top: -42px;
+    padding: 10px;
+    position: absolute;
+    width: 225px;
+    z-index: 999999999;
+	opacity: 0;
+	
+	-moz-transition: opacity 150ms linear 0s;
+}
+
+div.ext_maps_google #InformationBox:after {
+	border-color: #04316A transparent;
+    border-style: solid;
+    border-width: 11px 11px 0;
+    bottom: auto;
+    content: "";
+    display: block;
+    left: 105px;
+    position: absolute;
+    top: 36px;
+    width: 0;
+}
+
+	div.ext_maps_google #InformationBox span {
+		font-size: 13px;
+		color: white;
+		margin-left: 10px;
+		position: absolute
+	}
+
+div.ext_maps_google div.form_content {
+	--margin-top: 5px;
+}
+
+div.ext_maps_google div.form_content:hover #InformationBox {
+	opacity: 1;
+}
+
+div.ext_maps_google div.form_content input.city_name {
+	background-color: #9AB0CB;
+    border: 1px solid #ABBFD8;
+    color: white;
+    float: right;
+    margin-top: 4px;
+    padding: 5px;
+    width: 197px;
+}
+
+div.ext_maps_google div.form_content select {
+ background-color: #9AB0CB;
+    border: medium none;
+    color: white;
+    margin-top: 13px;
+    padding: 5px;
+    position: relative;
+    top: -13px;
+    width: 198px;
+	cursor: pointer;
+}
+
+div.ext_maps_google div.travelmode label {
+	font-weight: bold;
+	font-size: 14px;
+	color: white;
+	margin-left: 36px;
+	margin-top: 5px;
+	display: block;
+}
+
+div.ext_maps_google div.travelmode div.modes {
+	margin: 15px auto;
+    padding-bottom: 26px;
+    width: 114px;
+}
+
+div.ext_maps_google div.travelmode #BICYCLING,
+div.ext_maps_google div.travelmode #WALKING,
+div.ext_maps_google div.travelmode #DRIVING {
+	float: left;
+	text-indent: -9999em;
+	cursor: pointer;
+}
+
+div.ext_maps_google div.travelmode #WALKING,
+div.ext_maps_google div.travelmode #DRIVING {
+	margin-right: 10px;
+}
+
+div.ext_maps_google div.travelmode #BICYCLING {
+	background: url("../img/TravelmodeSprite.jpg") repeat scroll -32px 27px transparent;
+    height: 27px;
+    width: 40px;
+}
+
+div.ext_maps_google div.travelmode #BICYCLING.active,
+div.ext_maps_google div.travelmode #BICYCLING:hover {
+	background-position: -32px 0px;
+}
+
+div.ext_maps_google div.travelmode #DRIVING {
+	background: url("../img/TravelmodeSprite.jpg") repeat scroll 0px 27px transparent;
+    height: 27px;
+    width: 27px;
 }
 
 
-div.form_content {
-	width: 450px;
-	padding:14px;
-}
-div.form_content label{
-	display:block;
-	font-weight:bold;
-	text-align:right;
-	width:180px;
-	float:left;
-}
-div.form_content input, select{
-	float:left;
-	font-size:12px;
-	padding:4px 2px;
-	border:solid 1px #333;
-	width:200px;
-	margin:2px 0 10px 10px;
-}
-div.form_content select{
-	width:206px;
-}
-div.form_content input.btn{
-	clear:both;
-	margin-left:190px;
-	width:125px;
-	height:31px;
-	background:#333;
-	text-align:center;
-	line-height:31px;
-	color:#FFFFFF;
-	font-size:11px;
-	font-weight:bold;
+div.ext_maps_google div.travelmode #DRIVING.active,
+div.ext_maps_google div.travelmode #DRIVING:hover {
+	background-position: 0px 0px;
 }
 
 
-div.more_information {
-	clear:both;
-	border-left: 2px solid #333;
-	padding-left: 14px;
+div.ext_maps_google div.travelmode #WALKING {
+	background: url("../img/TravelmodeSprite.jpg") repeat scroll -75px 27px transparent;
+    height: 27px;
+    width: 27px;
 }
 
+div.ext_maps_google div.travelmode #WALKING.active,
+div.ext_maps_google div.travelmode #WALKING:hover {
+	background-position: -75px 0px;
+}
+
+div.ext_maps_google div.routeinformation {
+	width: 480px;
+}
+
+	div.ext_maps_google div.routeinformation #title {
+		font-weight: bold;
+	font-size: 14px;
+	color: white;
+	margin-bottom: 10px;
+	}
+
+	div.ext_maps_google div.routeinformation #time,
+	div.ext_maps_google div.routeinformation  #distance {
+		float: left;
+		width: 255px;
+	}
+	
+	div.ext_maps_google div.routeinformation  #distance {
+		margin-left: 20px;
+	}
+	
+		div.ext_maps_google div.routeinformation  #time nobr.route_time,
+		div.ext_maps_google div.routeinformation  #distance nobr.route_distance {
+			color: white;
+			display: block;
+			float: left;
+			margin-left: 5px;
+			margin-top: 9px;
+		}
+	
+	div.ext_maps_google div.routeinformation #time {
+		width: 200px;
+	}
+	
+	div.ext_maps_google div.routeinformation img {
+		float: left;
+		margin-right: 5px;
+	}
+	
+	div.ext_maps_google div.routeinformation span {
+		display: block;
+		float: left;
+		font-weight: bold;
+		margin-top: 9px;
+		color: white;
+	}
+
+div.ext_maps_google div.map_information 
+div.ext_maps_google div.map_information {
+	display: none;
+}
+
+	div.ext_maps_google div.map_information a {
+		font-weight: bold;
+		font-size: 13px;
+		color: #04316a;
+		text-decoration: none;
+		
+		background-image: url("../img/i_link_external.gif");
+		background-position: 0 0.3em;
+		background-repeat: no-repeat;
+		padding: 0 0 0 16px;
+	}
+	
+	div.ext_maps_google div.map_information a:hover {
+		text-decoration: underline;
+	}
+
+div.box {
+	background-color: #9ab0cb;
+	padding: 10px;
+	float: left;
+}
+
+div.margin {
+	margin-right: 10px;
+}
+
+div.clear {
+	clear: both;
+	height: 10px;
+}
+
+div.link_to_google,
+div.link_to_bahn,
+div.travelmode,
+div.locations {
+	width: 225px;
+}
+
+
+div.link_to_google,
+div.link_to_bahn {
+	padding: 15px;
+	width: 215px;
+}

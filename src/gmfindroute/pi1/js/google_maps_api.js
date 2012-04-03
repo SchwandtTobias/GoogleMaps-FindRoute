@@ -112,6 +112,9 @@ function initialize() {
 					
 			}
 			document.getElementById("google_link").href = "http://maps.google.de/maps?saddr=" + initialLocation + "&daddr=" + TargetLoc;
+			
+			
+			calcRoute();
 	}
 }
 
@@ -141,7 +144,12 @@ function calcRoute() {
 	      
 	    //Catch Address for Browse
 	      document.getElementById("route_distance").innerHTML = result.routes[0].legs[0].distance.text;
+		  document.getElementById("route_time").innerHTML = result.routes[0].legs[0].duration.text;
 	      document.getElementById("map_information").setAttribute("style", "display: block;");
+		  
+		  
+		  //calc Route
+		  calcRoute();
 	    }
 	  });
 }
@@ -202,7 +210,11 @@ function OnChangeTarget()
   //Show length for this route
   document.getElementById("google_link").href = "http://maps.google.de/maps?saddr=" + initialLocation + "&daddr=" + TargetLoc;
   document.getElementById("train_link").href= "http://reiseauskunft.bahn.de/bin/query.exe/dn?S=" + document.getElementById('city_name').value + "&Z=" + TargetStationArray[document.getElementById("target").value];
+  
+  calcRoute();
 }
+
+
 
 
 function OnChangeTravelMode()
@@ -217,6 +229,31 @@ function OnChangeTravelMode()
 	  {
 		  TravelMode = google.maps.DirectionsTravelMode.WALKING;
 	  }
+	  
+	  calcRoute();
+}
+
+
+function OnChangeTravelModeDirect(mode)
+{
+	TravelMode = google.maps.DirectionsTravelMode.DRIVING;
+	
+	document.getElementById('DRIVING').removeAttribute("class");
+	document.getElementById('WALKING').removeAttribute("class");
+	document.getElementById('BICYCLING').removeAttribute("class");
+	
+	if(mode == "WALKING")
+	{
+		TravelMode = google.maps.DirectionsTravelMode.WALKING;
+	}
+	else if(mode == "BICYCLING")
+	{
+		TravelMode = google.maps.DirectionsTravelMode.WALKING;
+	}
+	
+	document.getElementById(mode).setAttribute("class", "active");
+	
+	calcRoute();
 }
 
 

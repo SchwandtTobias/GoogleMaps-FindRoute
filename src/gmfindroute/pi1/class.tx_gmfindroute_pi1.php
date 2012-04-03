@@ -74,9 +74,9 @@ class tx_gmfindroute_pi1 extends tslib_pibase {
      */
     function view($content, $conf) 
     {
-        $this->conf = $conf;			// Setting the TypoScript passed to this function in $this->conf
+        $this->conf = $conf;		// Setting the TypoScript passed to this function in $this->conf
         $this->pi_setPiVarDefaults();
-        $this->pi_loadLL();				// Loading the LOCAL_LANG values
+        $this->pi_loadLL();		// Loading the LOCAL_LANG values
 		$this->pi_initPIflexForm(); 	// Init flexform
 
         $lConf = $this->conf['view.'];	// Local settings for the listView function
@@ -93,11 +93,16 @@ class tx_gmfindroute_pi1 extends tslib_pibase {
         $content='';
         # $content.=t3lib_div::view_array($this->piVars);	// DEBUG: Output the content of $this->piVars for debug purposes. REMEMBER to comment out the IP-lock in the debug() function in t3lib/config_default.php if nothing happens when you un-comment this line!
 
-		//Add CSS
+
+		// Added by SL - 2011 - 03 - 25
+		$content .= "<link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>";
+		
+		
+		
+//Add CSS
 		$GLOBALS['TSFE']->pSetup['includeCSS.'][$this->extKey] = $this->conf['includeCSS'];
 
         //Add JS
-		//$GLOBALS['TSFE']->pSetup['includeJS.'][$this->extKey] = 'typo3conf/ext/gmfindroute/pi1/js/google_maps_api.js';
 		$GLOBALS['TSFE']->additionalHeaderData[$this->extKey] = '<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
 <script type="text/javascript" src="typo3conf/ext/gmfindroute/pi1/js/google_maps_api.js"></script>';
 		
@@ -167,27 +172,30 @@ class tx_gmfindroute_pi1 extends tslib_pibase {
 		for($iPos = 0; $iPos < $countTargetElements; ++$iPos) {
 			$content .= 'google.maps.event.addListener(EventClickArray[' . $iPos . '], "click", function() {
 							 ClickMarkerToSetTarget("' . $iPos . '");
-;						 });
-		 				';
+							 ;});';
 		}	
 		
 		$content .= '}
 		</script>';
-	
 		
+		
+        
         //Add Content
         $content .= '
         
         <div class="ext_maps_google">
 	    <div id="map_canvas" class="map_canvas" style="width: ' . $this->getConfValue('sDEF', 'map_size_width', $this->conf['map.']['width']) . 'px; height: ' . $this->getConfValue('sDEF', 'map_size_height', $this->conf['map.']['height']) . 'px"></div>
-	    
+		
 	    <div class="form_content">
-		    <form action="#">
-		    <label for="city_name">' . $this->conf['language.']['label_start'] . '</label>
-		  	<input type="text" id="city_name" class="text" onchange="OnChangeInput();" placeholder="' . $this->conf['language.']['placeholder_start'] . '" />
-		  	
-		  	<label for="target">' . $this->conf['language.']['label_target'] . '</label>
-		  	 <select onchange="OnChangeTarget();" id="target" class="select">';
+		
+			<div id="InformationBox"><img src="typo3conf/ext/gmfindroute/pi1/img/Edit_Location.png" alt="Stift-Icon"/><span>' . $this->conf['language.']['placeholder_start'] . '</span></div>
+		
+			<div class="box margin locations">
+				<img src="typo3conf/ext/gmfindroute/pi1/img/Start_Location.png" alt="' . $this->conf['language.']['label_start'] . '" />
+				<input type="text" id="city_name" class="city_name" onchange="OnChangeInput();" placeholder="' . $this->conf['language.']['placeholder_start'] . '" />
+				<br />
+				<img src="typo3conf/ext/gmfindroute/pi1/img/Destination_Location.png" alt="' . $this->conf['language.']['label_target'] . '" />
+				 <select onchange="OnChangeTarget();" id="target" class="select">';
 			 
 			 $iPos = 0;
 			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
@@ -205,48 +213,56 @@ class tx_gmfindroute_pi1 extends tslib_pibase {
 			 
 			 $content .= '
 			</select>
-		  	 
-		  	 <label for="mode">' . $this->conf['language.']['label_mode'] . '</label>
-		  	 <select onchange="OnChangeTravelMode();" id="mode" class="select">
-			  <option value="DRIVING">' . $this->conf['language.']['label_mode1'] . '</option>
-			  <option value="WALKING">' . $this->conf['language.']['label_mode2'] . '</option>
-			  <option value="BICYCLING">' . $this->conf['language.']['label_mode3'] . '</option> 
-			</select>
-			
-			<input class="btn" type="button" onclick="calcRoute();" value="' . $this->conf['language.']['value_button'] . '" />
-		  	</form>
-	  	</div>
+		  	 </div>
+		</div>
+				 
+			 <div class="box travelmode">
+				 <label for="mode">' . $this->conf['language.']['label_mode'] . '</label>
+				 
+				 <div class="modes">
+					 <div id="DRIVING" class="active" onClick="OnChangeTravelModeDirect(\'DRIVING\');">' . $this->conf['language.']['label_mode1'] . '</div>
+					 <div id="BICYCLING" onClick="OnChangeTravelModeDirect(\'BICYCLING\');">' . $this->conf['language.']['label_mode3'] . '</div>
+					 <div id="WALKING" onClick="OnChangeTravelModeDirect(\'WALKING\');">' . $this->conf['language.']['label_mode2'] . '</div>
+				 </div>
+			</div>
+	  
 	  	
-	  	<div class="more_information">
-		  	<div class="map_information" id="map_information" style="display: none;">';
-		  	//if($this->conf['showMoreRouteLength'] == 1)
-			{
-				$content .= '<div class="length">' . $this->conf['language.']['label_length'] . ' <nobr id="route_distance" class="route_distance">' . $this->conf['language.']['txt_unknown'] . '</nobr></div>';
-			}
+		<div class="map_information" id="map_information">
+			<div class="clear"></div>
+			
+			
+			<div class="box routeinformation">
+				<div id="title">Anreiseinformationen</div>
+				<div id="distance"><img src="typo3conf/ext/gmfindroute/pi1/img/Distance.png" alt="' . $this->conf['language.']['label_length'] . '"/> <div class="length"><span>' . $this->conf['language.']['label_length'] . '</span> <nobr id="route_distance" class="route_distance">' . $this->conf['language.']['txt_unknown'] . '</nobr></div></div>
+				<div id="time"><img src="typo3conf/ext/gmfindroute/pi1/img/Time.png" alt="' . $this->conf['language.']['label_time'] . '"/><span>' . $this->conf['language.']['label_time'] . '</span> <nobr id="route_time" class="route_time">' . $this->conf['language.']['txt_unknown'] . '</nobr></div>
+			</div>
+			
+			<div class="clear"></div>';
+			
 			
 			if($this->getConfValue('sDEF', 'google_link', 0) == 0)
 			{
-				$content .= '<div class="link_to_google">' . $this->conf['language.']['label_google'] . ' <a class="external-link" id="google_link" target="_blank" href="http://maps.google.de/">' . $this->conf['language.']['link_google'] . '</a></div>';
+				$content .= '<div class="box link_to_google margin"><a id="google_link" target="_blank" href="http://maps.google.de/">' . $this->conf['language.']['link_google'] . '</a></div>';
 			}
 			
 			if($this->getConfValue('sDEF', 'db_link', 0) == 0)
 		  	{
-				$content .= '<div class="link_to_bahn">' . $this->conf['language.']['label_db'] . ' <a class="external-link" id="train_link" target="_blank" href="http://www.bahn.de">' . $this->conf['language.']['link_db'] . '</a></div>';
+				$content .= '<div class="box link_to_bahn"><a id="train_link" target="_blank" href="http://www.bahn.de">' . $this->conf['language.']['link_db'] . '</a></div>';
 			}
 			
+			$content .= '
 			
-			$content .= '</div>
-	  	</div>
-	  </div>
+			
+	
+		</div>
         
       ';
         
 
         return $content;
     }
-	
-	
-	function getConfValue($area, $field, $defValue) 
+
+    function getConfValue($area, $field, $defValue) 
 	{
 		$ret = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], $field, $area); 
 		
@@ -264,7 +280,5 @@ class tx_gmfindroute_pi1 extends tslib_pibase {
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/gmfindroute/pi1/class.tx_gmfindroute_pi1.php'])	{
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/gmfindroute/pi1/class.tx_gmfindroute_pi1.php']);
 }
-
-# $GLOBALS['TSFE']->pSetup['includeJS.'][$this->extKey] = 'typo3conf/ext/gmfindroute/pi1/js/google_maps_api.js';
 
 ?>

@@ -17,6 +17,7 @@ label_mode1 = Auto
 label_mode2 = Laufen
 label_mode3 = Fahrrad
 label_length = Strecke:
+label_time = Dauer:
 label_google = Wegbeschreibung:
 label_db = Deutsche Bahn:
 link_google = Details zur Route in Google Maps anzeigen.
