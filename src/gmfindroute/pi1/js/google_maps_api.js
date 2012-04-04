@@ -146,10 +146,6 @@ function calcRoute() {
 	      document.getElementById("route_distance").innerHTML = result.routes[0].legs[0].distance.text;
 		  document.getElementById("route_time").innerHTML = result.routes[0].legs[0].duration.text;
 	      document.getElementById("map_information").setAttribute("style", "display: block;");
-		  
-		  
-		  //calc Route
-		  calcRoute();
 	    }
 	  });
 }
