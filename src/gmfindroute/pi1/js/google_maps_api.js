@@ -103,6 +103,9 @@ function initialize() {
 				  if (results[1]) {
 				    document.getElementById('city_name').value = results[1].formatted_address;
 				    document.getElementById("train_link").href= "http://reiseauskunft.bahn.de/bin/query.exe/dn?S=" + results[1].formatted_address + "&Z=" + TargetStationArray[document.getElementById("target").value];
+				  
+				  	
+					calcRoute();
 				  }
 			  } else {
 				  alert("Geocoder failed due to: " + status);
@@ -114,7 +117,7 @@ function initialize() {
 			document.getElementById("google_link").href = "http://maps.google.de/maps?saddr=" + initialLocation + "&daddr=" + TargetLoc;
 			
 			
-			calcRoute();
+			
 	}
 }
 
