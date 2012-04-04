@@ -10,8 +10,6 @@ form {
 }
 
 div.ext_maps_google .map_canvas {
-	max-width: 500px;
-    min-height: 500px;
 	margin-bottom: 10px;
 }
 
@@ -63,7 +61,10 @@ div.ext_maps_google div.form_content input.city_name {
     float: right;
     margin-top: 4px;
     padding: 5px;
-    width: 197px;
+    width: 165px;
+	
+	font-family: Droid Sans, sans-serif;
+	font-size: 12px;
 }
 
 div.ext_maps_google div.form_content select {
@@ -74,15 +75,18 @@ div.ext_maps_google div.form_content select {
     padding: 5px;
     position: relative;
     top: -13px;
-    width: 198px;
+    width: 174px;
 	cursor: pointer;
+	
+	font-family: Droid Sans, sans-serif;
+	font-size: 12px;
 }
 
 div.ext_maps_google div.travelmode label {
 	font-weight: bold;
 	font-size: 14px;
 	color: white;
-	margin-left: 36px;
+	margin-left: 22px;
 	margin-top: 5px;
 	display: block;
 }
@@ -142,7 +146,7 @@ div.ext_maps_google div.travelmode #WALKING:hover {
 }
 
 div.ext_maps_google div.routeinformation {
-	width: 480px;
+	width: 430px;
 }
 
 	div.ext_maps_google div.routeinformation #title {
@@ -155,7 +159,7 @@ div.ext_maps_google div.routeinformation {
 	div.ext_maps_google div.routeinformation #time,
 	div.ext_maps_google div.routeinformation  #distance {
 		float: left;
-		width: 255px;
+		width: 200px;
 	}
 	
 	div.ext_maps_google div.routeinformation  #distance {
@@ -188,7 +192,6 @@ div.ext_maps_google div.routeinformation {
 		color: white;
 	}
 
-div.ext_maps_google div.map_information 
 div.ext_maps_google div.map_information {
 	display: none;
 }
@@ -209,31 +212,31 @@ div.ext_maps_google div.map_information {
 		text-decoration: underline;
 	}
 
-div.box {
+div.ext_maps_google div.box {
 	background-color: #9ab0cb;
 	padding: 10px;
 	float: left;
 }
 
-div.margin {
+div.ext_maps_google div.margin {
 	margin-right: 10px;
 }
 
-div.clear {
+div.ext_maps_google div.clear {
 	clear: both;
 	height: 10px;
 }
 
-div.link_to_google,
-div.link_to_bahn,
-div.travelmode,
-div.locations {
-	width: 225px;
+div.ext_maps_google div.link_to_google,
+div.ext_maps_google div.link_to_bahn,
+div.ext_maps_google div.travelmode,
+div.ext_maps_google div.locations {
+	width: 200px;
 }
 
 
-div.link_to_google,
-div.link_to_bahn {
+div.ext_maps_google div.link_to_google,
+div.ext_maps_google div.link_to_bahn {
 	padding: 15px;
-	width: 215px;
+	width: 190px;
 }

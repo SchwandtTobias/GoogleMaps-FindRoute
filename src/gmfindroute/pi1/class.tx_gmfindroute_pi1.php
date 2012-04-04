@@ -255,6 +255,10 @@ class tx_gmfindroute_pi1 extends tslib_pibase {
 			
 	
 		</div>
+		
+		<div class="clear"></div>
+		
+		</div>
         
       ';
         
