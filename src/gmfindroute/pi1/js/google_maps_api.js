@@ -72,20 +72,52 @@ function initialize() {
     
     // Try W3C Geolocation (Preferred)
 	if(navigator.geolocation) {
-		
 	    browserSupportFlag = true;
-	  
-	    navigator.geolocation.getCurrentPosition(function(position) {
-	    initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
-	    map.setCenter(initialLocation);
+	    navigator.geolocation.getCurrentPosition(function(position) 
+	    {
+	    	initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+	    	map.setCenter(initialLocation);
 	    
-	    handleFoundGeolocation();
+	    	handleFoundGeolocation();
 	    
-	  }, function() {
-	    handleNoGeolocation();
-	  });
-	} else {
-	  handleNoGeolocation();
+	  	}, function() {
+	    	handleNoGeolocation(browserSupportFlag);
+	  	});
+	}
+	else if(window.navigator.geolocation)
+	{
+		browserSupportFlag = true;
+	    window.navigator.geolocation.getCurrentPosition(
+	    function(position) 
+	    {
+	    	initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+	    	map.setCenter(initialLocation);
+	    
+	    	handleFoundGeolocation();
+	    
+	  	}, function() {
+	    	handleNoGeolocation(browserSupportFlag);
+	  	});
+	}
+	else if (google.gears) 
+	{
+    	browserSupportFlag = true;
+    	var geo = google.gears.factory.create('beta.geolocation');
+    	geo.getCurrentPosition(function(position) 
+    	{
+      		initialLocation = new google.maps.LatLng(position.latitude,position.longitude);
+      		map.setCenter(initialLocation);
+      		
+      		handleFoundGeolocation();
+      		
+    	}, function() {
+    		handleNoGeolocation(browserSupportFlag);
+    	});
+	}
+	else 
+	{
+	    browserSupportFlag = false;
+    	handleNoGeolocation(browserSupportFlag);
 	}
 	
 	function handleFoundGeolocation() {
@@ -115,10 +147,22 @@ function initialize() {
 					
 			}
 			document.getElementById("google_link").href = "http://maps.google.de/maps?saddr=" + initialLocation + "&daddr=" + TargetLoc;
-			
-			
-			
 	}
+	
+	function handleNoGeolocation(errorFlag) {
+    	if (errorFlag == true) 
+    	{
+      		alert("Geolocation service failed.");
+    	} 
+    	else 
+    	{
+      		initialLocation = new google.maps.LatLng(50.978514,11.027033);
+	    	map.setCenter(initialLocation);
+	    
+	    	handleFoundGeolocation();
+    	}
+  	}
+
 }
 
 function calcRoute() {	
@@ -143,12 +187,16 @@ function calcRoute() {
 	
 	  directionsService.route(request, function(result, status) {
 	    if (status == google.maps.DirectionsStatus.OK) {
-	      directionsDisplay.setDirections(result);
+	     	directionsDisplay.setDirections(result);
 	      
-	    //Catch Address for Browse
-	      document.getElementById("route_distance").innerHTML = result.routes[0].legs[0].distance.text;
-		  document.getElementById("route_time").innerHTML = result.routes[0].legs[0].duration.text;
-	      document.getElementById("map_information").setAttribute("style", "display: block;");
+	    	//Catch Address for Browse
+	      	document.getElementById("route_distance").innerHTML = result.routes[0].legs[0].distance.text;
+		  	document.getElementById("route_time").innerHTML = result.routes[0].legs[0].duration.text;
+	      	document.getElementById("map_information").style.display = 'block';
+	    }
+	    else
+	    {
+	    	alert("Error during calculating route");
 	    }
 	  });
 }
@@ -185,11 +233,6 @@ function OnChangeInput()
   		      map: map, 
   		      title:address
   		  });
-		  
-		  document.getElementById("map_information").setAttribute("style", "display: none;");
-		  directionsDisplay.setMap(null);
-		  map.setZoom(6);
-		  map.setCenter(initialLocation);
 		  
 		  //Set links
 		  OnChangeTarget();

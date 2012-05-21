@@ -74,6 +74,9 @@ class tx_gmfindroute_pi1 extends tslib_pibase {
      */
     function view($content, $conf) 
     {
+    	// -------------------------------------------------------------------
+        // Init extension
+        // -------------------------------------------------------------------
         $this->conf = $conf;		// Setting the TypoScript passed to this function in $this->conf
         $this->pi_setPiVarDefaults();
         $this->pi_loadLL();		// Loading the LOCAL_LANG values
@@ -88,25 +91,33 @@ class tx_gmfindroute_pi1 extends tslib_pibase {
         // Make listing query, pass query to SQL database:
         $res = $this->pi_exec_query('tx_gmfindroute_locations');
         $this->internal['currentTable'] = 'tx_gmfindroute_locations';
-
         
-        $content='';
-        # $content.=t3lib_div::view_array($this->piVars);	// DEBUG: Output the content of $this->piVars for debug purposes. REMEMBER to comment out the IP-lock in the debug() function in t3lib/config_default.php if nothing happens when you un-comment this line!
-
-
-		// Added by SL - 2011 - 03 - 25
-		$content .= "<link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>";
-		
-		
-		
-//Add CSS
+        
+        
+        $this->templateHtml = $this->cObj->fileResource($conf['templateFile']); //load template
+		$subpart = $this->cObj->getSubpart($this->templateHtml, '###TEMPLATE###'); //extract subparts
+	
+    
+    
+    
+        $content='';    
+        
+            
+        // -------------------------------------------------------------------
+        // Setup Plugin
+        // -------------------------------------------------------------------
+        
+		//Add CSS
 		$GLOBALS['TSFE']->pSetup['includeCSS.'][$this->extKey] = $this->conf['includeCSS'];
 
         //Add JS
 		$GLOBALS['TSFE']->additionalHeaderData[$this->extKey] = '<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
-<script type="text/javascript" src="typo3conf/ext/gmfindroute/pi1/js/google_maps_api.js"></script>';
+		<script type="text/javascript" src="typo3conf/ext/gmfindroute/pi1/js/google_maps_api.js"></script>';
 		
- 
+		
+ 		// Added by SL - 2011 - 03 - 25
+		$content .= "<link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>";
+
 		
 		//Add placements
 		$content .= '<script type="text/javascript">';
@@ -163,31 +174,18 @@ class tx_gmfindroute_pi1 extends tslib_pibase {
 		';
 		$content .= '</script>';
 
-		//Start extension on load
-        $content .= '
-        <script type="text/javascript">
-		window.onload = function () {
-  			initialize();
-			';
-		for($iPos = 0; $iPos < $countTargetElements; ++$iPos) {
-			$content .= 'google.maps.event.addListener(EventClickArray[' . $iPos . '], "click", function() {
-							 ClickMarkerToSetTarget("' . $iPos . '");
-							 ;});';
-		}	
-		
-		$content .= '}
-		</script>';
+
 		
 		
+        // -------------------------------------------------------------------
+        // Add Content
+        // -------------------------------------------------------------------
         
-        //Add Content
-        $content .= '
+        // Fill marker array	
+		$markerArray['###GOOGLEMAP###'] = '<div id="map_canvas" class="map_canvas" style="width: ' . $this->getConfValue('sDEF', 'map_size_width', $this->conf['map.']['width']) . 'px; height: ' . $this->getConfValue('sDEF', 'map_size_height', $this->conf['map.']['height']) . 'px"></div>';
         
-        <div class="ext_maps_google">
-	    <div id="map_canvas" class="map_canvas" style="width: ' . $this->getConfValue('sDEF', 'map_size_width', $this->conf['map.']['width']) . 'px; height: ' . $this->getConfValue('sDEF', 'map_size_height', $this->conf['map.']['height']) . 'px"></div>
-		
-	    <div class="form_content">
-		
+        
+        $part = '
 			<div id="InformationBox"><img src="typo3conf/ext/gmfindroute/pi1/img/Edit_Location.png" alt="Stift-Icon"/><span>' . $this->conf['language.']['placeholder_start'] . '</span></div>
 		
 			<div class="box margin locations">
@@ -207,60 +205,93 @@ class tx_gmfindroute_pi1 extends tslib_pibase {
             );
 		
 			while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
-				$content .= '<option value="' . $iPos . '">' . $row['locationname'] . '</option>';
+				$part .= '<option value="' . $iPos . '">' . $row['locationname'] . '</option>';
 				++$iPos;
 			}	
 			 
-			 $content .= '
+			 $part .= '
 			</select>
-		  	 </div>
-		</div>
-				 
-			 <div class="box travelmode">
+		  	 </div>';
+		$markerArray['###CALCULATION###'] = $part;
+		
+		
+		$part = ' 
 				 <label for="mode">' . $this->conf['language.']['label_mode'] . '</label>
 				 
 				 <div class="modes">
 					 <div id="DRIVING" class="active" onClick="OnChangeTravelModeDirect(\'DRIVING\');">' . $this->conf['language.']['label_mode1'] . '</div>
 					 <div id="BICYCLING" onClick="OnChangeTravelModeDirect(\'BICYCLING\');">' . $this->conf['language.']['label_mode3'] . '</div>
 					 <div id="WALKING" onClick="OnChangeTravelModeDirect(\'WALKING\');">' . $this->conf['language.']['label_mode2'] . '</div>
-				 </div>
-			</div>
+				 </div>';
+		$markerArray['###TRAVELMODE###'] = $part;
 	  
 	  	
-		<div class="map_information" id="map_information">
-			<div class="clear"></div>
+	  	$part = '
+		<div id="title">Anreiseinformationen</div>
+		<div id="distance"><img src="typo3conf/ext/gmfindroute/pi1/img/Distance.png" alt="' . $this->conf['language.']['label_length'] . '"/> <div class="length"><span>' . $this->conf['language.']['label_length'] . '</span> <nobr id="route_distance" class="route_distance">' . $this->conf['language.']['txt_unknown'] . '</nobr></div></div>
+		<div id="time"><img src="typo3conf/ext/gmfindroute/pi1/img/Time.png" alt="' . $this->conf['language.']['label_time'] . '"/><span>' . $this->conf['language.']['label_time'] . '</span> <nobr id="route_time" class="route_time">' . $this->conf['language.']['txt_unknown'] . '</nobr></div>';
+		$markerArray['###ROUTEINFOS###'] = $part;
 			
 			
-			<div class="box routeinformation">
-				<div id="title">Anreiseinformationen</div>
-				<div id="distance"><img src="typo3conf/ext/gmfindroute/pi1/img/Distance.png" alt="' . $this->conf['language.']['label_length'] . '"/> <div class="length"><span>' . $this->conf['language.']['label_length'] . '</span> <nobr id="route_distance" class="route_distance">' . $this->conf['language.']['txt_unknown'] . '</nobr></div></div>
-				<div id="time"><img src="typo3conf/ext/gmfindroute/pi1/img/Time.png" alt="' . $this->conf['language.']['label_time'] . '"/><span>' . $this->conf['language.']['label_time'] . '</span> <nobr id="route_time" class="route_time">' . $this->conf['language.']['txt_unknown'] . '</nobr></div>
-			</div>
-			
-			<div class="clear"></div>';
-			
-			
-			if($this->getConfValue('sDEF', 'google_link', 0) == 0)
-			{
-				$content .= '<div class="box link_to_google margin"><a id="google_link" target="_blank" href="http://maps.google.de/">' . $this->conf['language.']['link_google'] . '</a></div>';
-			}
-			
-			if($this->getConfValue('sDEF', 'db_link', 0) == 0)
-		  	{
-				$content .= '<div class="box link_to_bahn"><a id="train_link" target="_blank" href="http://www.bahn.de">' . $this->conf['language.']['link_db'] . '</a></div>';
-			}
-			
-			$content .= '
-			
-			
+		$part = '';
+		if($this->getConfValue('sDEF', 'google_link', 0) == 0)
+		{
+			$part .= '<div class="box link_to_google margin"><a id="google_link" target="_blank" href="http://maps.google.de/">' . $this->conf['language.']['link_google'] . '</a></div>';
+		}
+		if($this->getConfValue('sDEF', 'db_link', 0) == 0)
+		{
+			$part .= '<div class="box link_to_bahn"><a id="train_link" target="_blank" href="http://www.bahn.de">' . $this->conf['language.']['link_db'] . '</a></div>';
+		}
+		$markerArray['###EXTLINKS###'] = $part;
+
+
+
+		$content .= $this->cObj->substituteMarkerArrayCached($subpart, $markerArray);
 	
-		</div>
-		
-		<div class="clear"></div>
-		
-		</div>
+	
+	
+
+		// -------------------------------------------------------------------
+        // Start extension
+        // -------------------------------------------------------------------	
+        $content .= '
         
-      ';
+        <!--[if IE]>
+        <script type="text/javascript">
+		window.onload = new function () {
+  			initialize();
+			';
+		for($iPos = 0; $iPos < $countTargetElements; ++$iPos) {
+			$content .= 'google.maps.event.addListener(EventClickArray[' . $iPos . '], "click", function() {
+							 ClickMarkerToSetTarget("' . $iPos . '");
+							 ;});';
+		}	
+		
+		$content .= '}
+		</script>
+		<![ENDIF]-->
+		
+		 <!--[if !IE]> -->
+        <script type="text/javascript">
+		window.onload = function () {
+  			initialize();
+			';
+		for($iPos = 0; $iPos < $countTargetElements; ++$iPos) {
+			$content .= 'google.maps.event.addListener(EventClickArray[' . $iPos . '], "click", function() {
+							 ClickMarkerToSetTarget("' . $iPos . '");
+							 ;});';
+		}	
+		
+		$content .= '}
+		</script>
+		<!-- <![ENDIF]-->
+		
+		';
+
+
+
+
+		
         
 
         return $content;

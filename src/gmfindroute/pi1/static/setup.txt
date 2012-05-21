@@ -1,6 +1,7 @@
 plugin.tx_gmfindroute_pi1 { 
-pathDefImgMarker = typo3conf/ext/gmfindroute/pi1/img/logo_50_marker.png
-includeCSS = typo3conf/ext/gmfindroute/pi1/css/style.css
+pathDefImgMarker = EXT:gmfindroute/pi1/img/logo_50_marker.png
+includeCSS = EXT:gmfindroute/pi1/css/style.css
+templateFile = EXT:gmfindroute/pi1/tmpl/template.tmpl
 
 map {
 width = 500
