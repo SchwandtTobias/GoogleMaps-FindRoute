@@ -48,6 +48,10 @@ div.ext_maps_google #InformationBox:after {
 
 div.ext_maps_google div.form_content {
 	--margin-top: 5px;
+	width: 225px; 
+	float: left; 
+	margin-right: 10px; 
+	overflow: hidden;
 }
 
 div.ext_maps_google div.form_content:hover #InformationBox {
@@ -58,7 +62,6 @@ div.ext_maps_google div.form_content input.city_name {
 	background-color: #9AB0CB;
     border: 1px solid #ABBFD8;
     color: white;
-    float: right;
     margin-top: 4px;
     padding: 5px;
     width: 165px;
@@ -194,7 +197,7 @@ div.ext_maps_google div.routeinformation {
 	}
 
 div.ext_maps_google div.map_information {
-	display: none;
+	display: none;			
 }
 
 	div.ext_maps_google div.map_information a {
@@ -225,6 +228,7 @@ div.ext_maps_google div.margin {
 
 div.ext_maps_google div.clear {
 	clear: both;
+	height: 0;
 }
 
 div.ext_maps_google div.link_to_google,
@@ -234,6 +238,10 @@ div.ext_maps_google div.locations {
 	width: 200px;
 }
 
+div.ext_maps_google div.travelmode,
+div.ext_maps_google div.locations {
+	height: 80px;
+}
 
 div.ext_maps_google div.link_to_google,
 div.ext_maps_google div.link_to_bahn {

@@ -186,11 +186,11 @@ class tx_gmfindroute_pi1 extends tslib_pibase {
         
         
         $part = '
-			<div id="InformationBox"><img src="typo3conf/ext/gmfindroute/pi1/img/Edit_Location.png" alt="Stift-Icon"/><span>' . $this->conf['language.']['placeholder_start'] . '</span></div>
+			<!--<div id="InformationBox"><img src="typo3conf/ext/gmfindroute/pi1/img/Edit_Location.png" alt="Stift-Icon"/><span>' . $this->conf['language.']['placeholder_start'] . '</span></div>-->
 		
 			<div class="box margin locations">
 				<img src="typo3conf/ext/gmfindroute/pi1/img/Start_Location.png" alt="' . $this->conf['language.']['label_start'] . '" />
-				<input type="text" id="city_name" class="city_name" onchange="OnChangeInput();" placeholder="' . $this->conf['language.']['placeholder_start'] . '" />
+				<input type="text" id="city_name" class="city_name" onchange="OnChangeInput();" onkeypress="OnPressKeyInCityName(event);" placeholder="' . $this->conf['language.']['placeholder_start'] . '" />
 				<br />
 				<img src="typo3conf/ext/gmfindroute/pi1/img/Destination_Location.png" alt="' . $this->conf['language.']['label_target'] . '" />
 				 <select onchange="OnChangeTarget();" id="target" class="select">';

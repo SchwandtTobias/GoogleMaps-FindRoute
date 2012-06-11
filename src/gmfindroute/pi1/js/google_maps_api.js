@@ -165,6 +165,13 @@ function initialize() {
 
 }
 
+function OnPressKeyInCityName(e) {
+	if (e.keyCode == 13) //Enter Key
+	{
+		calcRoute();
+	}
+}
+
 function calcRoute() {	
 	
 	if(document.getElementById('city_name').value == "") 
