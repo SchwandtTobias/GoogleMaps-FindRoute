@@ -248,3 +248,23 @@ div.ext_maps_google div.link_to_bahn {
 	padding: 15px;
 	width: 190px;
 }
+
+
+div.ext_maps_google div.map_calculation {
+	width: 430px;
+	text-align: center;
+}
+
+div.ext_maps_google div.map_calculation a {
+	font-weight: bold;
+	
+	color: #04316a;
+	text-decoration: none;
+}
+
+div.ext_maps_google div.map_calculation a:hover {
+	text-decoration: underline;
+}
+
+
+

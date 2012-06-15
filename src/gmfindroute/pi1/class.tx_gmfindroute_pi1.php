@@ -243,6 +243,11 @@ class tx_gmfindroute_pi1 extends tslib_pibase {
 			$part .= '<div class="box link_to_bahn"><a id="train_link" target="_blank" href="http://www.bahn.de">' . $this->conf['language.']['link_db'] . '</a></div>';
 		}
 		$markerArray['###EXTLINKS###'] = $part;
+		
+		
+		$part = '';
+		$part .= '<a href="" onclick="calcRoute(); return false;">Route berechnen</a>';
+		$markerArray['###CALCROUTEBUTTON###'] = $part;
 
 
 
@@ -255,8 +260,6 @@ class tx_gmfindroute_pi1 extends tslib_pibase {
         // Start extension
         // -------------------------------------------------------------------	
         $content .= '
-        
-        <!--[if IE]>
         <script type="text/javascript">
 		window.onload = new function () {
   			initialize();
@@ -268,31 +271,9 @@ class tx_gmfindroute_pi1 extends tslib_pibase {
 		}	
 		
 		$content .= '}
-		</script>
-		<![ENDIF]-->
-		
-		 <!--[if !IE]> -->
-        <script type="text/javascript">
-		window.onload = function () {
-  			initialize();
-			';
-		for($iPos = 0; $iPos < $countTargetElements; ++$iPos) {
-			$content .= 'google.maps.event.addListener(EventClickArray[' . $iPos . '], "click", function() {
-							 ClickMarkerToSetTarget("' . $iPos . '");
-							 ;});';
-		}	
-		
-		$content .= '}
-		</script>
-		<!-- <![ENDIF]-->
-		
+		</script>	
 		';
 
-
-
-
-		
-        
 
         return $content;
     }
