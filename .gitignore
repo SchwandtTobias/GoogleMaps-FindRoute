@@ -1,0 +1,11 @@
+# Ignore general
+*.sdf
+*.vcxproj.filters
+*.vcxproj.user
+*.exe
+*.DS_Store
+
+# Ignore special folders and files
+/bin
+/lib
+/intern/build
