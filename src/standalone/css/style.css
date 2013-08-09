@@ -1,0 +1,22 @@
+@CHARSET "UTF-8";
+
+div.ext_maps_google .map_canvas {
+	max-width: 500px;
+    min-height: 500px;
+}
+
+div.ext_maps_google div.form_content {
+	margin-top: 5px;
+}
+
+div.ext_maps_google div.form_content form input.city_name {
+	min-width: 350px;
+}
+
+div.ext_maps_google div.map_information {
+	display: none;
+}
+
+div.ext_maps_google div.map_information nobr.route_distance {
+	font-weight: bold;
+}
